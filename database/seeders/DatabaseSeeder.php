@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->createCentroDistribucion($faker, 3);
         $this->createMedicamentos();
         $this->createFarmacias();
+        $this->createStock();
 
         // \App\Models\User::factory(10)->create();
 
@@ -142,6 +143,58 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now()
         ]);
 
+
+    }
+
+    private function createStock(){
+
+        DB::table('stock_cds')->insert([
+            'scd_id_medicamento' => 1,
+            'scd_cantidad' => 500,
+            'scd_centro_dist' => 1,
+            'scd_lote' => 9001,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('stock_cds')->insert([
+            'scd_id_medicamento' => 1,
+            'scd_cantidad' => 300,
+            'scd_centro_dist' => 1,
+            'scd_lote' => 9002,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('stock_cds')->insert([
+            'scd_id_medicamento' => 2,
+            'scd_cantidad' => 600,
+            'scd_centro_dist' => 1,
+            'scd_lote' => 9003,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('stock_cds')->insert([
+            'scd_id_medicamento' => 1,
+            'scd_cantidad' => 100,
+            'scd_centro_dist' => 2,
+            'scd_lote' => 9004,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('stock_cds')->insert([
+            'scd_id_medicamento' => 2,
+            'scd_cantidad' => 400,
+            'scd_centro_dist' => 2,
+            'scd_lote' => 9005,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        
+        
+  
 
     }
 }
