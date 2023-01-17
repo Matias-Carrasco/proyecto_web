@@ -53,9 +53,20 @@ class CentroDistribucionController extends Controller
         $centro = centro_distribucion::findorFail($id);
         $stock_cd = stock_cd::where('scd_centro_dist',$id)->get();
 
-        
+        $array_med = array();;
+        foreach ($stock_cd as $sto){
+            $nombre_med = medicamento::findorFail($sto->scd_id_medicamento);
+            
+            $array_med[] = [
+                'id' => $sto->id,
+                'scd_centro_dist' => $sto->scd_centro_dist,
+                'medicamento_nombre' => $nombre_med->med_nombre,
+                'cantidad' => $sto->scd_cantidad,
+                'scd_lote' => $sto->scd_lote
+            ];
+        }
 
-        return $stock_cd;
+        return $array_med;
     }
 
     /**
@@ -99,16 +110,7 @@ class CentroDistribucionController extends Controller
         return $stock_cd;
 
 
-        $stock_array = $stock_cd->toArray();
-        $array_med;
-        foreach ($stock_array as $sto){
-            $nombre_med = medicamento::where('id',$sto->scd_id_medicamento)->pluck('med_nombre')->toArray();
-            $data[] = [
-                'nombre' => $label,
-                'cantidad' => $budget->sum($label)
-            ];
-        }
-
+     
 
         
         
