@@ -3,6 +3,7 @@
 use App\Http\Controllers\StockCdController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\CentroDistribucionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('stock_cds',StockCdController::class);
+Route::get('/stock', [CentroDistribucionController::class, 'stock']);
+
+Route::resource('centrodistribucion',CentroDistribucionController::class);
