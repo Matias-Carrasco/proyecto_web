@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('det_ingreso_id');
             $table->foreign('det_ingreso_id')->references('id')->on('ingresos');
             $table->integer('det_ing_cantidad');
-            $table->integer('det_ing_lote')->unique();
+            $table->integer('det_ing_lote');
             
         });
     }

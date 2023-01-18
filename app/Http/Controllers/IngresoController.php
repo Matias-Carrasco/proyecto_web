@@ -37,7 +37,12 @@ class IngresoController extends Controller
      */
     public function store(StoreingresoRequest $request)
     {
-        //
+        $ingreso = new ingreso;
+        $ingreso->ingr_fecha = $request->input('ingr_fecha');
+        $ingreso->ingr_centro_dist = $request->input('ingr_centro_dist');
+        $ingreso->save();
+
+        return response()->json($ingreso, status:201);
     }
 
     /**
@@ -47,8 +52,9 @@ class IngresoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(ingreso $ingreso)
-    {
-        //
+    {  
+  
+        
     }
 
     /**

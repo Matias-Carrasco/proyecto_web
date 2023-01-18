@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('det_egreso_id');
             $table->foreign('det_egreso_id')->references('id')->on('egresos');
             $table->integer('det_egr_cantidad');
-            $table->integer('det_egr_lote')->unique();
+            $table->integer('det_egr_lote');
             
         });
     }

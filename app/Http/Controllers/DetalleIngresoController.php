@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\detalle_ingreso;
+use App\Models\ingreso;
+use App\Models\centro_distribucion;
+use App\Models\stock_cd;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Storedetalle_ingresoRequest;
 use App\Http\Requests\Updatedetalle_ingresoRequest;
@@ -37,7 +40,31 @@ class DetalleIngresoController extends Controller
      */
     public function store(Storedetalle_ingresoRequest $request)
     {
-        //
+
+        $id_ingre = $request->input('det_ingreso_id');
+
+        $ingreso = ingreso::where('id',$id_ingre)->first();
+
+        $centro = centro_distribucion::findorFail($ingreso->ingr_centro_dist);
+
+        $stock_cd = new stock_cd;
+        $stock_cd->scd_cantidad = $request->input('det_ing_cantidad');
+        $stock_cd->scd_centro_dist = $centro->id;
+        $stock_cd->scd_id_medicamento = $request->input('id_medicamento');
+        $stock_cd->scd_lote = $request->input('det_ing_lote');
+        $stock_cd->save();
+
+        
+        $detalle = new detalle_ingreso;
+        $detalle->id_medicamento = $request->input('id_medicamento');
+        $detalle->det_ingreso_id = $request->input('det_ingreso_id');
+        $detalle->det_ing_cantidad = $request->input('det_ing_cantidad');
+        $detalle->det_ing_lote = $request->input('det_ing_lote');
+        $detalle->save();
+
+        
+        return response()->json($detalle, status:201);
+
     }
 
     /**

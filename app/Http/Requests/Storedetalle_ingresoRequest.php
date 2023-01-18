@@ -13,7 +13,7 @@ class Storedetalle_ingresoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
