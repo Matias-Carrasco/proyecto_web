@@ -38,23 +38,12 @@ class IngresoController extends Controller
      */
     public function store(StoreingresoRequest $request)
     {
-        $this->validate($request, [
-            'ingr_fecha' => 'required',
-            'ingr_centro_dist' => 'required',
-        ]);
-
         $ingreso = new ingreso;
         $ingreso->ingr_fecha = $request->input('ingr_fecha');
         $ingreso->ingr_centro_dist = $request->input('ingr_centro_dist');
         $ingreso->save();
 
-        $det_ingreso = new detalle_ingreso;
-        $det_ingreso->id_medicamento = $request->input('id_medicamento');
-        $det_ingreso->det_ing_cantidad = $request->input('det_ing_cantidad');
-        $det_ingreso->det_ing_lote = $request->input('');
-        $det_ingreso->save();
-
-        return response()->json("Guardado exitosamente");
+        return response()->json($ingreso, status:201);
     }
 
     /**
@@ -64,8 +53,9 @@ class IngresoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(ingreso $ingreso)
-    {
-        //
+    {  
+  
+        
     }
 
     /**

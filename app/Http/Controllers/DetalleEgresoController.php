@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\detalle_egreso;
+use App\Models\egreso;
+use App\Models\centro_distribucion;
+use App\Models\stock_cd;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Storedetalle_egresoRequest;
 use App\Http\Requests\Updatedetalle_egresoRequest;
@@ -16,7 +19,7 @@ class DetalleEgresoController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -26,7 +29,7 @@ class DetalleEgresoController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -37,7 +40,33 @@ class DetalleEgresoController extends Controller
      */
     public function store(Storedetalle_egresoRequest $request)
     {
-        //
+        
+        $id_egres = $request->input('det_egreso_id');
+
+        $egreso = egreso::where('id',$id_egres)->first();
+
+        $centro = centro_distribucion::findorFail($egreso->egre_centro_dist);
+
+        $stock = stock_cd::where('scd_centro_dist',$centro->id)->get();
+      
+
+        $array_med = array();
+        foreach ($stock as $sto){
+            if($sto->scd_lote == $request->input('det_egr_lote')){
+                $stock_cd = stock_cd::findorFail($sto->id);
+                $stock_cd->scd_cantidad = ($stock_cd->scd_cantidad-$request->input('det_egr_cantidad'));
+                $stock_cd->save();
+            }
+        }
+        
+        $detalle = new detalle_egreso;
+        $detalle->id_medicamento = $request->input('id_medicamento');
+        $detalle->det_egreso_id = $request->input('det_egreso_id');
+        $detalle->det_egr_cantidad = $request->input('det_egr_cantidad');
+        $detalle->det_egr_lote = $request->input('det_egr_lote');
+        $detalle->save();
+
+        return response()->json($detalle, status:201);
     }
 
     /**

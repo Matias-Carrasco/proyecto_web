@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\egreso;
+use App\Models\detalle_ingreso;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreegresoRequest;
 use App\Http\Requests\UpdateegresoRequest;
@@ -26,7 +27,7 @@ class EgresoController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -37,7 +38,14 @@ class EgresoController extends Controller
      */
     public function store(StoreegresoRequest $request)
     {
-        //
+
+        $egreso = new egreso;
+        $egreso->egre_fecha = $request->input('egre_fecha');
+        $egreso->egre_centro_dist = $request->input('egre_centro_dist');
+        $egreso->egre_farmacia_id = $request->input('egre_farmacia_id');
+        $egreso->save();
+
+        return response()->json($egreso, status:201);
     }
 
     /**
