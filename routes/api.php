@@ -9,6 +9,10 @@ use App\Http\Controllers\IngresoController;
 use App\Http\Controllers\MedicamentoController;
 use App\Models\medicamento;
 
+use \App\Http\Controllers\DetalleEgresoController;
+use \App\Http\Controllers\EgresoController;
+use \App\Http\Controllers\DetalleIngresoController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,4 +49,10 @@ Route::resource('farmacia', FarmaciaController::class);
 Route::prefix('/centrodistribucion')->group(function () use ($router) {
     $router->post('/update', [CentroDistribucionController::class, 'update']);
 });
+
 Route::resource('centrodistribucion', CentroDistribucionController::class);
+
+Route::resource('egreso',EgresoController::class);
+Route::resource('ingreso',IngresoController::class);
+Route::resource('detalleingreso',DetalleIngresoController::class);
+Route::resource('detalleegreso',DetalleEgresoController::class);
