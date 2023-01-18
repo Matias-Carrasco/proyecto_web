@@ -37,7 +37,19 @@ class FarmaciaController extends Controller
      */
     public function store(StorefarmaciaRequest $request)
     {
-        //
+        $this->validate($request, [
+            'farm_nombre' => 'required',
+            'farm_direccion' => 'required',
+            'farm_mail' => 'required'            
+        ]);
+
+        $farmacia = new farmacia();
+        $farmacia->farm_nombre = $request->input('farm_nombre');
+        $farmacia->farm_direccion = $request->input('farm_direccion');
+        $farmacia->farm_mail = $request->input('farm_mail');
+        $farmacia->save();
+
+        return response()->json("Guardado exitosamente");
     }
 
     /**
@@ -69,9 +81,23 @@ class FarmaciaController extends Controller
      * @param  \App\Models\farmacia  $farmacia
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatefarmaciaRequest $request, farmacia $farmacia)
+    public function update(UpdatefarmaciaRequest $request)
     {
-        //
+        $this->validate($request, [
+            'farm_nombre' => 'required',
+            'farm_direccion' => 'required',
+            'farm_mail' => 'required'            
+        ]);
+        
+        $farmacia = farmacia::where('id', $request->input('id'))->first();
+        if($farmacia == null) return response()->json("Farmacia no existe");
+
+        $farmacia->farm_nombre = $request->input('farm_nombre');
+        $farmacia->farm_direccion = $request->input('farm_direccion');
+        $farmacia->farm_mail = $request->input('farm_mail');
+        
+        $farmacia->save();
+        return response()->json("Guardado correctamente");
     }
 
     /**
@@ -80,8 +106,10 @@ class FarmaciaController extends Controller
      * @param  \App\Models\farmacia  $farmacia
      * @return \Illuminate\Http\Response
      */
-    public function destroy(farmacia $farmacia)
+    public function destroy(UpdatefarmaciaRequest $request)
     {
-        //
+        $farmacia = farmacia::where('id', $request->input('id'))->first();
+        $farmacia->delete();
+        return;
     }
 }

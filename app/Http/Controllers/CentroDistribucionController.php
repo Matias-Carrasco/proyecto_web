@@ -39,7 +39,19 @@ class CentroDistribucionController extends Controller
      */
     public function store(Storecentro_distribucionRequest $request)
     {
-        //
+        $this->validate($request, [
+            'cd_codigo' => 'required',
+            'cd_direccion' => 'required',
+            'cd_telefono' => 'required'           
+        ]);
+
+        $c_distribucion = new centro_distribucion;
+        $c_distribucion->cd_codigo = $request->input('cd_codigo');
+        $c_distribucion->cd_direccion = $request->input('cd_direccion');
+        $c_distribucion->cd_telefono = $request->input('cd_telefono');
+        $c_distribucion->save();
+
+        return response()->json("Guardado exitosamente");
     }
 
     /**
@@ -87,9 +99,23 @@ class CentroDistribucionController extends Controller
      * @param  \App\Models\centro_distribucion  $centro_distribucion
      * @return \Illuminate\Http\Response
      */
-    public function update(Updatecentro_distribucionRequest $request, centro_distribucion $centro_distribucion)
+    public function update(Updatecentro_distribucionRequest $request)
     {
-        //
+        $this->validate($request, [
+            'cd_codigo' => 'required',
+            'cd_direccion' => 'required',
+            'cd_telefono' => 'required'           
+        ]);
+        
+        $c_distribucion = centro_distribucion::where('id', $request->input('id'))->first();
+        if($c_distribucion == null) return response()->json("Centro de distribuciones no existe");
+
+        $c_distribucion->cd_codigo = $request->input('cd_codigo');
+        $c_distribucion->cd_direccion = $request->input('cd_direccion');
+        $c_distribucion->cd_telefono = $request->input('cd_telefono');
+        
+        $c_distribucion->save();
+        return response()->json("Guardado correctamente");
     }
 
     /**
@@ -98,9 +124,11 @@ class CentroDistribucionController extends Controller
      * @param  \App\Models\centro_distribucion  $centro_distribucion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(centro_distribucion $centro_distribucion)
+    public function destroy(Updatecentro_distribucionRequest $request)
     {
-        //
+        $c_distribucion = centro_distribucion::where('id', $request->input('id'))->first();
+        $c_distribucion->delete();
+        return;
     }
 
     public function stock(centro_distribucion $id){

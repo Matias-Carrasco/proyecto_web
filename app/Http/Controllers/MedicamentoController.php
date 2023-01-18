@@ -26,7 +26,7 @@ class MedicamentoController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -37,7 +37,18 @@ class MedicamentoController extends Controller
      */
     public function store(StoremedicamentoRequest $request)
     {
-        //
+        $this->validate($request, [
+            'med_nombre' => 'required',
+            'med_compuesto' => 'required',
+        ]);
+
+        $medicamento = new medicamento;
+        $medicamento->med_nombre = $request->input('med_nombre');
+        $medicamento->med_compuesto = $request->input('med_compuesto');
+        $medicamento->save();
+
+        return response()->json("Guardado exitosamente");
+
     }
 
     /**
@@ -69,9 +80,23 @@ class MedicamentoController extends Controller
      * @param  \App\Models\medicamento  $medicamento
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatemedicamentoRequest $request, medicamento $medicamento)
+    public function update(UpdatemedicamentoRequest $request)
     {
-        //
+
+        
+        $this->validate($request, [
+            'med_nombre' => 'required',
+            'med_compuesto' => 'required'
+        ]);
+        
+        $medicamento = medicamento::where('id', $request->input('id'))->first();
+        if($medicamento == null) return response()->json("Medicamento no existe");
+
+        $medicamento->med_nombre = $request->input('med_nombre');
+        $medicamento->med_compuesto = $request->input('med_compuesto');
+        
+        $medicamento->save();
+        return response()->json("Guardado correctamente");
     }
 
     /**
@@ -80,8 +105,10 @@ class MedicamentoController extends Controller
      * @param  \App\Models\medicamento  $medicamento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(medicamento $medicamento)
+    public function destroy(UpdatemedicamentoRequest $request)
     {
-        //
+        $medicamento = medicamento::where('id', $request->input('id'))->first();
+        $medicamento->delete();
+        return;
     }
 }
