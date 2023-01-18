@@ -16,7 +16,7 @@ class StockCdController extends Controller
      */
     public function index()
     {
-        //
+        return stock_cd::all();
     }
 
     /**
